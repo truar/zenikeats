@@ -6,11 +6,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class Order {
-    private final String id;
-    private final List<Item> orderedItems;
-    private final String clientId;
+    private String id;
+    private List<Item> orderedItems;
+    private String clientId;
     private OrderStatus status;
-    private final List<StatusHistory> statusHistories;
+    private List<StatusHistory> statusHistories;
     private String deliveryDriverId;
     private LocalDateTime creationDate;
 
@@ -23,8 +23,13 @@ public class Order {
         changeStatus(OrderStatus.CREATED, creationDate);
     }
 
-    public void accept(LocalDateTime acceptationDate) {
+    private Order() {
+
+    }
+
+    public OrderAccepted accept(LocalDateTime acceptationDate) {
         changeStatus(OrderStatus.ACCEPTED, acceptationDate);
+        return new OrderAccepted(id, acceptationDate);
     }
 
     public void acceptDelivery(String deliveryDriverId) throws OrderNotAcceptedException, OrderAlreadyAssignedToADeliveryDriver {
